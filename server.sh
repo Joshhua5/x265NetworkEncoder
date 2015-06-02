@@ -22,6 +22,7 @@ FTP_SERVER="10.0.0.117"
 
 mkdir enc_ftp
 #Mount the FTP in the script directory
+umount enc_ftp
 curlftpfs $FTP_USER:$FTP_PASS@$FTP_SERVER enc_ftp/
 
 #Index the whole ftp server
@@ -32,24 +33,27 @@ curlftpfs $FTP_USER:$FTP_PASS@$FTP_SERVER enc_ftp/
 
 while :
 do
-	echo "Scanning Directories" 
-		 
-	echo "Array indexes: "
-	
+	echo "Cleaning working directories"
+	rm -f work.txt
+
+	echo "Scanning Directories"
+	cd enc_ftp
 	for dir in ${!SCAN_DIR[*]}
 	do
 		for ext in ${!TARGET_FILES[*]}
 		do
 			# Check will use ffmpeg to check the format and append it to 
 			# word.txt
-			find . -type f -name "enc_ftp/*.$ext" -exec ./check.sh {} \;
-		done 
+			find . -type f -name "*.$ext" -exec ./../check.sh {} \;
+		done
 	done
-	
+	cd ..
 	echo "Serving Work"
-	
+
 	cat work.txt | while read line; do ./pass.sh $line; done
 
 	./prepare_clients
 done
+
+umount enc_ftp
 
