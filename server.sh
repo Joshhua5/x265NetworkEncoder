@@ -38,12 +38,13 @@ do
 
 	echo "Scanning Directories"
 	cd enc_ftp
-	for dir in ${!SCAN_DIR[*]}
+	for dir in "${SCAN_DIR[@]}"
 	do
-		for ext in ${!TARGET_FILES[*]}
+		for ext in "${TARGET_FILES[@]}"
 		do
 			# Check will use ffmpeg to check the format and append it to 
 			# word.txt
+			echo "searching for $ext"
 			find . -type f -name "*.$ext" -exec ./../check.sh {} \;
 		done
 	done

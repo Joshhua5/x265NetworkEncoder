@@ -1,9 +1,10 @@
 #! /bin/bash
+ffmpeg -i "$1" > ../temp.txt
 
-ffmpeg -i "$1" > temp.txt
-
-if[ ($grep -o "hevc" temp.txt != "" ]; then
+echo "Checking file $file"
+if ! grep -o "$1" ../temp.txt
+then
 	# add this file to the list if it matches hevc
-	$1 > ../work.txt
+	echo "$1" >> ../work.txt
 	echo "Fount Match: $1"
 fi
