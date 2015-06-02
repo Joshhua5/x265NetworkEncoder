@@ -8,7 +8,6 @@
 
 cd enc_ftp/Clients
 
-
 #Cycle through all clients
 for dir in $(ls)
 do

@@ -48,11 +48,9 @@ do
 		done
 	done
 	cd ..
-	echo "Serving Work"
 
-	cat work.txt | while read line; do ./pass.sh $line; done
+	./continue_serving.sh
 
-	./prepare_clients
 done
 
 umount enc_ftp
