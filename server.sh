@@ -10,7 +10,7 @@
 
 #Directory to scan for videos to encode relative to FTP root directory
 SCAN_DIR=("Movies" "TV shows" "Recently Added")
-TARGET_FILES("avi" "mkv" "mp4")
+TARGET_FILES=("avi" "mkv" "mp4")
 CLIENT_FILES="clients"
 
 FTP_USER="client"
@@ -29,6 +29,7 @@ curlftpfs $FTP_USER:$FTP_PASS@$FTP_SERVER enc_ftp/
 #and the new file will replace it's current position and delete the old file
 # unless an error occured with encoding, incase a list of faulty videos will
 # be produced
+
 while :
 do
 	echo "Scanning Directories" 
@@ -39,6 +40,8 @@ do
 	do
 		for ext in ${!TARGET_FILES[*]}
 		do
+			# Check will use ffmpeg to check the format and append it to 
+			# word.txt
 			find . -type f -name "enc_ftp/*.$ext" -exec ./check.sh {} \;
 		done 
 	done
